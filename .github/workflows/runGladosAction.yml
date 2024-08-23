@@ -3,8 +3,8 @@ name: 开始每日签到
 on:
   workflow_dispatch:
   schedule:
-    # 每 8 到 12 小时之间随机签到一次，避免网络问题和自动化检测
-    - cron: "0 */8 * * *"
+    # 每天上午 8:00 触发 (本地时间)
+    - cron: "0 8 * * *"
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       - name: Random Sleep
-        run: sleep $[($RANDOM % 1800) + 600]
+        run: sleep $[($RANDOM % 600) + 60]  # 随机延迟 1 到 10 分钟
       - name: Run checkin
         run: |
           python3 glados.py
